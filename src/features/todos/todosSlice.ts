@@ -44,10 +44,14 @@ export const todosSlice = createSlice({
         existingTodo.isComplete = true;
       }
     },
+    deleteTodo: (state, action: PayloadAction<Todo>) => {
+      const { id } = action.payload;
+      state.todos = state.todos.filter((todo) => todo.id !== id);
+    },
   },
 });
 
-export const { addTodo, completeTodo } = todosSlice.actions;
+export const { addTodo, completeTodo, deleteTodo } = todosSlice.actions;
 
 export const selectCount = (state: RootState) => state.todos.value;
 
