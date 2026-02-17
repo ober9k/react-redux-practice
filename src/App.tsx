@@ -5,8 +5,10 @@ function App() {
   return (
     <>
       <h1>React + Redux</h1>
-      <h2>Counter</h2>
-      <Counter />
+      <h2>Counter 1</h2>
+      <Counter/>
+      <h2>Counter 2</h2>
+      <Counter/>
     </>
   )
 }
