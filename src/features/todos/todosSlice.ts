@@ -1,19 +1,24 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../../store/store.ts";
 
 export interface Todo {
-  id: number,
+  id?: number,
   title: string,
   isComplete: boolean,
 }
 
 export interface TodosState {
-  value: Array<Todo>,
+  todos: Array<Todo>,
 }
 
 const initialState: TodosState = {
-  value: [{
+  todos: [{
     id: 1,
-    title: "Example Todo",
+    title: "Example Todo #1",
+    isComplete: false,
+  },{
+    id: 2,
+    title: "Example Todo #2",
     isComplete: false,
   }],
 };
@@ -23,11 +28,27 @@ export const todosSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action: PayloadAction<Todo>) => {
-      state.push(action);
+      const newTodo = {
+        ...action.payload,
+        id: state.todos.length + 1,
+      };
+
+      state.todos.push(newTodo);
+    },
+    completeTodo: (state, action: PayloadAction<Todo>) => {
+      const { id } = action.payload;
+
+      const existingTodo = state.todos.find((todo) => todo.id === id);
+
+      if (existingTodo) {
+        existingTodo.isComplete = true;
+      }
     },
   },
 });
 
-export const { addTodo } = todosSlice.actions;
+export const { addTodo, completeTodo } = todosSlice.actions;
+
+export const selectCount = (state: RootState) => state.todos.value;
 
 export default todosSlice.reducer;
