@@ -3,12 +3,13 @@ import cssClasses from "./Button.module.css";
 
 type ButtonProps = {
   children: ReactNode,
-  onClick:  () => void,
+  disabled?: boolean,
+  onClick?: () => void,
 }
 
-export default function Button({ children, onClick = () => {} }: ButtonProps) {
+export default function Button({ children, disabled = false, onClick = () => {} }: ButtonProps) {
   return (
-    <button className={cssClasses.button} onClick={onClick}>
+    <button className={cssClasses.button} disabled={disabled!} onClick={onClick!}>
       {children}
     </button>
   );
