@@ -1,11 +1,10 @@
 import Button from "../../components/Button.tsx";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks.ts";
+import TodoForm from "./TodoForm.tsx";
 import { addTodo, completeTodo, deleteTodo, type Todo } from "./todosSlice.ts";
 
 export default function Todos() {
   const todos = useAppSelector((state) => state.todos.todos);
-
-  console.log(todos.length);
   const dispatch = useAppDispatch();
 
   const handleComplete = (todo: Todo) => () => {
@@ -21,6 +20,9 @@ export default function Todos() {
       <p>
         Todos (length): {todos.length}
       </p>
+      <div>
+        <TodoForm />
+      </div>
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
