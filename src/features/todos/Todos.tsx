@@ -27,6 +27,9 @@ export default function Todos() {
         {todos.map((todo) => (
           <li key={todo.id}>
             #{todo.id}: {todo.title} <small>({todo.isComplete ? "completed" : "pending"})</small>
+            <p>
+              {todo.description}
+            </p>
             <div>
               <Button onClick={handleComplete(todo)}>Complete</Button>
               <Button onClick={handleDelete(todo)}>Delete</Button>
@@ -37,6 +40,8 @@ export default function Todos() {
       <p>
         <button onClick={() => dispatch(addTodo({
           title: "Manually Dispatched #1",
+          description: "Example Description",
+          tags: [],
           isComplete: false,
         }))}>Add Todo</button>
       </p>

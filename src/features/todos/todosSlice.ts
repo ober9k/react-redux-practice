@@ -1,9 +1,16 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store/store.ts";
 
+export interface Tag {
+  id?: number,
+  title: string,
+}
+
 export interface Todo {
   id?: number,
   title: string,
+  description: string,
+  tags: Array<Tag>,
   isComplete: boolean,
 }
 
@@ -15,10 +22,14 @@ const initialState: TodosState = {
   todos: [{
     id: 1,
     title: "Example Todo #1",
+    description: "Example Description",
+    tags: [],
     isComplete: false,
   },{
     id: 2,
     title: "Example Todo #2",
+    description: "Example Description",
+    tags: [],
     isComplete: false,
   }],
 };

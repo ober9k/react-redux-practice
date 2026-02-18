@@ -21,11 +21,13 @@ export default function TodoForm() {
     await sleep(1000);
 
     const title = formData.get("title").toString();
+    const description = formData.get("description").toString();
     const isComplete = false;
 
     if (title.length === 0) {
       return {
         title,
+        description,
         errors: {
           title: {
             message: "Title must not be empty.",
@@ -34,7 +36,19 @@ export default function TodoForm() {
       };
     }
 
-    dispatch(addTodo({ title, isComplete }));
+    if (description.length === 0) {
+      return {
+        title,
+        description,
+        errors: {
+          title: {
+            message: "Title must not be empty.",
+          }
+        }
+      };
+    }
+
+    dispatch(addTodo({ title, description, tags: [], isComplete }));
 
     return state;
   }, initialState);
@@ -50,6 +64,15 @@ export default function TodoForm() {
         {state.errors?.title && (
           <p>
             {state.errors.title.message}
+          </p>
+        )}
+        <p>
+          <label htmlFor="description">description</label><br/>
+          <input type="text" id="description" name="description" defaultValue={state.description} />
+        </p>
+        {state.errors?.description && (
+          <p>
+            {state.errors.description.message}
           </p>
         )}
         <p>
