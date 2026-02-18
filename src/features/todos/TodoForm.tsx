@@ -1,8 +1,11 @@
 import { useActionState } from "react";
+import type { ZodError } from "zod";
+import { flattenError } from "zod";
 import Button from "../../components/Button.tsx";
 import { useAppDispatch } from "../../hooks/hooks.ts";
-import { addTodo } from "./todosSlice.ts";
+import { TodoSchema } from "../../schemas/TodoSchema.ts";
 import cssStyles from "./TodoForm.module.css";
+import { addTodo } from "./todosSlice.ts";
 
 function sleep(ms: number) {
   return new Promise((resolve) => {
@@ -12,8 +15,21 @@ function sleep(ms: number) {
 
 const initialState = {
   title: "",
+  description: "",
   errors: {},
 };
+
+type DisplayErrorProps = {
+  message: string,
+}
+
+function DisplayError({ message }: DisplayErrorProps) {
+  return (
+    <p>
+      {message}
+    </p>
+  );
+}
 
 export default function TodoForm() {
   const dispatch = useAppDispatch();
@@ -24,33 +40,23 @@ export default function TodoForm() {
     const description = formData.get("description").toString();
     const isComplete = false;
 
-    if (title.length === 0) {
+    try {
+      TodoSchema.parse({ title, description });
+    }
+    catch (error: ZodError) {
       return {
-        title,
-        description,
-        errors: {
-          title: {
-            message: "Title must not be empty.",
-          }
-        }
+        title, description,
+        ...flattenError(error),
       };
     }
 
-    if (description.length === 0) {
-      return {
-        title,
-        description,
-        errors: {
-          title: {
-            message: "Title must not be empty.",
-          }
-        }
-      };
-    }
+    dispatch(addTodo({
+      title, description, tags: [], isComplete,
+    }));
 
-    dispatch(addTodo({ title, description, tags: [], isComplete }));
-
-    return state;
+    return {
+      title, description,
+    };
   }, initialState);
 
   return (
@@ -61,20 +67,12 @@ export default function TodoForm() {
           <label htmlFor="title">Title</label><br/>
           <input type="text" id="title" name="title" defaultValue={state.title} />
         </p>
-        {state.errors?.title && (
-          <p>
-            {state.errors.title.message}
-          </p>
-        )}
+        {state.fieldErrors?.title && (<DisplayError message={state.fieldErrors.title} />)}
         <p>
           <label htmlFor="description">description</label><br/>
           <input type="text" id="description" name="description" defaultValue={state.description} />
         </p>
-        {state.errors?.description && (
-          <p>
-            {state.errors.description.message}
-          </p>
-        )}
+        {state.fieldErrors?.description && (<DisplayError message={state.fieldErrors.description} />)}
         <p>
           <Button disabled={isPending}>
             {isPending ? "Submitting" : "Submit"}
