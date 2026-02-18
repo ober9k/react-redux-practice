@@ -1,6 +1,22 @@
 .form {
-  font-size: 12px;
-  margin: 0 2px;
-  padding: 4px 12px;
-  border: 1px solid #efefef;
+  width: 100%;
+  font-size: 14px;
+
+  label {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.25rem;
+    display: block;
+    font-weight: 400;
+  }
+
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.5rem 0.25rem;
+    margin-bottom: 0.5rem;
+
+    border: 1px solid #cccccc;
+    border-radius: 0.25rem;
+  }
 }

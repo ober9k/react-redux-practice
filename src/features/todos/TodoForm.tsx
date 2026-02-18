@@ -64,13 +64,13 @@ export default function TodoForm() {
       <h3>Add Todo:</h3>
       <form action={formAction} className={cssStyles.form}>
         <p>
-          <label htmlFor="title">Title</label><br/>
           <input type="text" id="title" name="title" defaultValue={state.title} />
+          <label htmlFor="title">Title:</label>
         </p>
         {state.fieldErrors?.title && (<DisplayError message={state.fieldErrors.title} />)}
         <p>
-          <label htmlFor="description">description</label><br/>
           <input type="text" id="description" name="description" defaultValue={state.description} />
+          <label htmlFor="description">Description:</label>
         </p>
         {state.fieldErrors?.description && (<DisplayError message={state.fieldErrors.description} />)}
         <p>
