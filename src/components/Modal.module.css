@@ -9,6 +9,9 @@
 }
 
 .modal {
+  position: fixed;
+  top: 1rem;
+
   border: none;
   background: #fff;
   border-radius: 6px;
