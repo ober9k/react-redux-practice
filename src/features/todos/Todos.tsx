@@ -1,11 +1,19 @@
+import { useState } from "react";
 import Button from "../../components/Button.tsx";
+import Modal from "../../components/Modal.tsx";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks.ts";
 import TodoForm from "./TodoForm.tsx";
-import { addTodo, completeTodo, deleteTodo, type Todo } from "./todosSlice.ts";
+import { completeTodo, deleteTodo, type Todo } from "./todosSlice.ts";
 
 export default function Todos() {
   const todos = useAppSelector((state) => state.todos.todos);
   const dispatch = useAppDispatch();
+
+  const [ open, setOpen ] = useState(false);
+
+  const closeHandler = () => {
+    setOpen(false);
+  };
 
   const handleComplete = (todo: Todo) => () => {
     dispatch(completeTodo(todo));
@@ -17,11 +25,18 @@ export default function Todos() {
 
   return (
     <div>
+      {open && (
+        <Modal onClose={closeHandler}>
+          <TodoForm onClose={closeHandler} />
+        </Modal>
+      )}
       <p>
-        Todos (length): {todos.length}
+        Todos (length): {todos.length}<br/>
+        <button onClick={() => setOpen(true)}>
+          Add Todo
+        </button>
       </p>
       <div>
-        <TodoForm />
       </div>
       <ul>
         {todos.map((todo) => (
@@ -37,14 +52,6 @@ export default function Todos() {
           </li>
         ))}
       </ul>
-      <p>
-        <button onClick={() => dispatch(addTodo({
-          title: "Manually Dispatched #1",
-          description: "Example Description",
-          tags: [],
-          isComplete: false,
-        }))}>Add Todo</button>
-      </p>
     </div>
   );
 }

@@ -1,7 +1,8 @@
 import { useActionState } from "react";
 import type { ZodError } from "zod";
 import { flattenError } from "zod";
-import Button from "../../components/Button.tsx";
+import ModalFooter from "../../components/modal/ModalFooter.tsx";
+import ModalHeader from "../../components/modal/ModalHeader.tsx";
 import { useAppDispatch } from "../../hooks/hooks.ts";
 import { TodoSchema } from "../../schemas/TodoSchema.ts";
 import cssStyles from "./TodoForm.module.css";
@@ -31,7 +32,11 @@ function DisplayError({ message }: DisplayErrorProps) {
   );
 }
 
-export default function TodoForm() {
+type TodoFormProps = {
+  onClose: () => void,
+}
+
+export default function TodoForm({ onClose }: TodoFormProps) {
   const dispatch = useAppDispatch();
   const [ state, formAction, isPending ] = useActionState(async (state, formData: FormData) => {
     await sleep(1000);
@@ -54,31 +59,41 @@ export default function TodoForm() {
       title, description, tags: [], isComplete,
     }));
 
+    onClose();
+
     return {
       title, description,
     };
   }, initialState);
 
   return (
-    <div>
-      <h3>Add Todo:</h3>
-      <form action={formAction} className={cssStyles.form}>
+    <>
+    <form action={formAction} className={cssStyles.form}>
+      <ModalHeader>
+        <h2>Add Todo</h2>
+      </ModalHeader>
+      <div>
         <p>
-          <input type="text" id="title" name="title" defaultValue={state.title} />
           <label htmlFor="title">Title:</label>
+          <input type="text" id="title" name="title" defaultValue={state.title}/>
         </p>
-        {state.fieldErrors?.title && (<DisplayError message={state.fieldErrors.title} />)}
+        {state.fieldErrors?.title && (<DisplayError message={state.fieldErrors.title}/>)}
         <p>
-          <input type="text" id="description" name="description" defaultValue={state.description} />
           <label htmlFor="description">Description:</label>
+          <input type="text" id="description" name="description" defaultValue={state.description}/>
         </p>
-        {state.fieldErrors?.description && (<DisplayError message={state.fieldErrors.description} />)}
-        <p>
-          <Button disabled={isPending}>
-            {isPending ? "Submitting" : "Submit"}
-          </Button>
-        </p>
-      </form>
+        {state.fieldErrors?.description && (<DisplayError message={state.fieldErrors.description}/>)}
     </div>
-  )
+  <ModalFooter>
+    <button onClick={onClose} disabled={isPending}>
+          Cancel
+        </button>
+        &nbsp;
+        <button disabled={isPending}>
+          {isPending ? "Submitting" : "Submit"}
+        </button>
+      </ModalFooter>
+    </form>
+    </>
+  );
 }
