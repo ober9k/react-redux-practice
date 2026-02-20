@@ -1,6 +1,5 @@
 import { useActionState } from "react";
-import type { ZodError } from "zod";
-import { flattenError } from "zod";
+import { flattenError, z } from "zod";
 import ModalFooter from "../../components/modal/ModalFooter.tsx";
 import ModalHeader from "../../components/modal/ModalHeader.tsx";
 import { useAppDispatch } from "../../hooks/hooks.ts";
@@ -14,22 +13,24 @@ function sleep(ms: number) {
   });
 }
 
-const initialState = {
-  title: "",
-  description: "",
-  errors: {},
-};
+type FlattenedErrors = z.inferFlattenedErrors<typeof TodoSchema>;
 
-type DisplayErrorProps = {
-  message: string,
+type FormState = {
+  result: boolean,
+  errors: FlattenedErrors,
 }
 
-function DisplayError({ message }: DisplayErrorProps) {
-  return (
-    <p>
-      {message}
-    </p>
-  );
+const initialState: FormState = {
+  result: false,
+  errors: {
+    formErrors: [],
+    fieldErrors: {},
+  },
+};
+
+const defaultValues = {
+  title: "",
+  description: "",
 }
 
 type TodoFormProps = {
@@ -38,54 +39,64 @@ type TodoFormProps = {
 
 export default function TodoForm({ onClose }: TodoFormProps) {
   const dispatch = useAppDispatch();
-  const [ state, formAction, isPending ] = useActionState(async (state, formData: FormData) => {
+
+  const [ state, formAction, isPending ] = useActionState(async (prevState: FormState, formData: FormData) => {
     await sleep(1000);
 
-    const title = formData.get("title").toString();
-    const description = formData.get("description").toString();
-    const isComplete = false;
+    const result = TodoSchema.safeParse({
+      title: formData.get("title"),
+      description: formData.get("description"),
+    });
 
-    try {
-      TodoSchema.parse({ title, description });
-    }
-    catch (error: ZodError) {
+    if (!result.success) {
       return {
-        title, description,
-        ...flattenError(error),
+        result: false,
+        errors: flattenError(result.error),
       };
     }
 
+    const { title, description } = result.data;
+
     dispatch(addTodo({
-      title, description, tags: [], isComplete,
+      title, description, tags: [], isComplete: false,
     }));
 
     onClose();
 
     return {
-      title, description,
+      ...prevState,
+      result: true,
     };
   }, initialState);
 
   return (
     <>
-    <form action={formAction} className={cssStyles.form}>
-      <ModalHeader>
-        <h2>Add Todo</h2>
-      </ModalHeader>
-      <div>
-        <p>
-          <label htmlFor="title">Title:</label>
-          <input type="text" id="title" name="title" defaultValue={state.title}/>
-        </p>
-        {state.fieldErrors?.title && (<DisplayError message={state.fieldErrors.title}/>)}
-        <p>
-          <label htmlFor="description">Description:</label>
-          <input type="text" id="description" name="description" defaultValue={state.description}/>
-        </p>
-        {state.fieldErrors?.description && (<DisplayError message={state.fieldErrors.description}/>)}
-    </div>
-  <ModalFooter>
-    <button onClick={onClose} disabled={isPending}>
+      <form action={formAction} className={cssStyles.form}>
+        <ModalHeader>
+          <h2>Add Todo</h2>
+        </ModalHeader>
+        <div>
+          <p>
+            <label htmlFor="title">Title:</label>
+            <input type="text" id="title" name="title" defaultValue={defaultValues.title}/>
+          </p>
+          {state.errors?.fieldErrors?.title && (
+            <p>
+              {state.errors.fieldErrors.title}
+            </p>
+          )}
+          <p>
+            <label htmlFor="description">Description:</label>
+            <input type="text" id="description" name="description" defaultValue={defaultValues.description}/>
+          </p>
+          {state.errors?.fieldErrors?.description && (
+            <p>
+              {state.errors.fieldErrors.description}
+            </p>
+          )}
+      </div>
+      <ModalFooter>
+        <button onClick={onClose} disabled={isPending}>
           Cancel
         </button>
         &nbsp;
@@ -94,6 +105,6 @@ export default function TodoForm({ onClose }: TodoFormProps) {
         </button>
       </ModalFooter>
     </form>
-    </>
+  </>
   );
 }

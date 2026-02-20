@@ -64,6 +64,6 @@ export const todosSlice = createSlice({
 
 export const { addTodo, completeTodo, deleteTodo } = todosSlice.actions;
 
-export const selectCount = (state: RootState) => state.todos.value;
+export const selectCount = (state: RootState) => state.todos.todos;
 
 export default todosSlice.reducer;

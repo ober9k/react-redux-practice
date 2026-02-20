@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import * as React from "react";
 import classes from "./Modal.module.css";
 
 type ModalProps = {
