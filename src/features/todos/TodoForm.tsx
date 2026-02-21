@@ -3,7 +3,7 @@ import { flattenError, z } from "zod";
 import ModalFooter from "../../components/modal/ModalFooter.tsx";
 import ModalHeader from "../../components/modal/ModalHeader.tsx";
 import { useAppDispatch } from "../../hooks/hooks.ts";
-import { TodoSchema } from "../../schemas/TodoSchema.ts";
+import { TodoDataSchema } from "../../schemas/TodoDataSchema.ts";
 import cssStyles from "./TodoForm.module.css";
 import { addTodo } from "./todosSlice.ts";
 
@@ -13,7 +13,7 @@ function sleep(ms: number) {
   });
 }
 
-type FlattenedErrors = z.inferFlattenedErrors<typeof TodoSchema>;
+type FlattenedErrors = z.inferFlattenedErrors<typeof TodoDataSchema>;
 
 type FormState = {
   result: boolean,
@@ -43,7 +43,7 @@ export default function TodoForm({ onClose }: TodoFormProps) {
   const [ state, formAction, isPending ] = useActionState(async (prevState: FormState, formData: FormData) => {
     await sleep(1000);
 
-    const result = TodoSchema.safeParse({
+    const result = TodoDataSchema.safeParse({
       title: formData.get("title"),
       description: formData.get("description"),
     });

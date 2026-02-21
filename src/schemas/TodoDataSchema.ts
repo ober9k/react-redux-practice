@@ -5,7 +5,7 @@ const TitleMaxLength = 63;
 const DescriptionMinLength = 1;
 const DescriptionMaxLength = 255;
 
-export const TodoSchema = z.object({
+export const TodoDataSchema = z.object({
   title: z.string()
     .min(TitleMinLength, { message: "Title is required." })
     .max(TitleMaxLength),
