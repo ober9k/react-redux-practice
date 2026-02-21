@@ -1,9 +1,10 @@
+import type { Todo } from "@types/Todo.ts";
 import { useState } from "react";
 import Button from "../../components/Button.tsx";
 import Modal from "../../components/Modal.tsx";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks.ts";
 import TodoForm from "./TodoForm.tsx";
-import { completeTodo, deleteTodo, type Todo } from "./todosSlice.ts";
+import { completeTodo, deleteTodo } from "./todosSlice.ts";
 
 export default function Todos() {
   const todos = useAppSelector((state) => state.todos.todos);
