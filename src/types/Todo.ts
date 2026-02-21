@@ -5,5 +5,5 @@ export type Todo = {
   title: string,
   description: string,
   tags: Array<Tag>,
-  isComplete: boolean,
+  isCompleted: boolean,
 }

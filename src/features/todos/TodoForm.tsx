@@ -58,7 +58,7 @@ export default function TodoForm({ onClose }: TodoFormProps) {
     const { title, description } = result.data;
 
     dispatch(addTodo({
-      title, description, tags: [], isComplete: false,
+      title, description, tags: [], isCompleted: false,
     }));
 
     onClose();

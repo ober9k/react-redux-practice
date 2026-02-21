@@ -12,13 +12,13 @@ const initialState: TodosState = {
     title: "Example Todo #1",
     description: "Example Description",
     tags: [],
-    isComplete: false,
+    isCompleted: false,
   },{
     id: 2,
     title: "Example Todo #2",
     description: "Example Description",
     tags: [],
-    isComplete: false,
+    isCompleted: false,
   }],
 };
 
@@ -40,7 +40,7 @@ export const todosSlice = createSlice({
       const existingTodo = state.todos.find((todo) => todo.id === id);
 
       if (existingTodo) {
-        existingTodo.isComplete = true;
+        existingTodo.isCompleted = true;
       }
     },
     deleteTodo: (state, action: PayloadAction<Todo>) => {
