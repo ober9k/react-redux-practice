@@ -1,3 +1,4 @@
+import { findTodoById, getNextTodoId, mockTodos } from "@features/todos/todosHelpers.ts";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "@store/store.ts";
 import type { Todo } from "@types/Todo.ts";
@@ -7,19 +8,7 @@ export interface TodosState {
 }
 
 const initialState: TodosState = {
-  todos: [{
-    id: 1,
-    title: "Example Todo #1",
-    description: "Example Description",
-    tags: [],
-    isCompleted: false,
-  },{
-    id: 2,
-    title: "Example Todo #2",
-    description: "Example Description",
-    tags: [],
-    isCompleted: false,
-  }],
+  todos: [...mockTodos], /* temporary mock todos */
 };
 
 export const todosSlice = createSlice({
@@ -27,20 +16,27 @@ export const todosSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action: PayloadAction<Todo>) => {
-      const newTodo = {
-        ...action.payload,
-        id: state.todos.length + 1,
-      };
+      const { title, description, tags, isCompleted } = action.payload;
 
-      state.todos.push(newTodo);
+      state.todos.push({
+        id: getNextTodoId(state), title, description, tags, isCompleted
+      });
     },
-    completeTodo: (state, action: PayloadAction<Todo>) => {
+    toggleTodo: (state, action: PayloadAction<Todo>) => {
       const { id } = action.payload;
-
-      const existingTodo = state.todos.find((todo) => todo.id === id);
+      const existingTodo = findTodoById(state, id);
 
       if (existingTodo) {
-        existingTodo.isCompleted = true;
+        existingTodo.isCompleted = !existingTodo.isCompleted;
+      }
+    },
+    updateTodo: (state, action: PayloadAction<Todo>) => {
+      const { id, title, description } = action.payload;
+      const existingTodo = findTodoById(state, id);
+
+      if (existingTodo) {
+        existingTodo.title = title;
+        existingTodo.description = description;
       }
     },
     deleteTodo: (state, action: PayloadAction<Todo>) => {
@@ -50,8 +46,8 @@ export const todosSlice = createSlice({
   },
 });
 
-export const { addTodo, completeTodo, deleteTodo } = todosSlice.actions;
+export const { addTodo, toggleTodo, deleteTodo } = todosSlice.actions;
 
-export const selectCount = (state: RootState) => state.todos.todos;
+export const selectTodos = (state: RootState) => state.todos.todos;
 
 export default todosSlice.reducer;

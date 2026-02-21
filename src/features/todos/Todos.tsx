@@ -1,7 +1,7 @@
 import Button from "@components/Button.tsx";
 import Modal from "@components/Modal.tsx";
 import TodoForm from "@features/todos/TodoForm.tsx";
-import { completeTodo, deleteTodo } from "@features/todos/todosSlice.ts";
+import { toggleTodo, deleteTodo } from "@features/todos/todosSlice.ts";
 import { useAppDispatch, useAppSelector } from "@hooks/hooks.ts";
 import type { Todo } from "@types/Todo.ts";
 import { useState } from "react";
@@ -17,7 +17,7 @@ export default function Todos() {
   };
 
   const handleComplete = (todo: Todo) => () => {
-    dispatch(completeTodo(todo));
+    dispatch(toggleTodo(todo));
   };
 
   const handleDelete = (todo: Todo) => () => {
