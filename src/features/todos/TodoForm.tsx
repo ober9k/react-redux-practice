@@ -1,11 +1,11 @@
+import ModalFooter from "@components/modal/ModalFooter.tsx";
+import ModalHeader from "@components/modal/ModalHeader.tsx";
+import cssStyles from "@features/todos/TodoForm.module.css";
+import { addTodo } from "@features/todos/todosSlice.ts";
+import { useAppDispatch } from "@hooks/hooks.ts";
+import { TodoDataSchema } from "@schemas/TodoDataSchema.ts";
 import { useActionState } from "react";
 import { flattenError, z } from "zod";
-import ModalFooter from "../../components/modal/ModalFooter.tsx";
-import ModalHeader from "../../components/modal/ModalHeader.tsx";
-import { useAppDispatch } from "../../hooks/hooks.ts";
-import { TodoDataSchema } from "../../schemas/TodoDataSchema.ts";
-import cssStyles from "./TodoForm.module.css";
-import { addTodo } from "./todosSlice.ts";
 
 function sleep(ms: number) {
   return new Promise((resolve) => {

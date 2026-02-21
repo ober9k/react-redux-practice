@@ -1,6 +1,6 @@
-import Button from "../../components/Button.tsx";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks.ts";
-import { decrement, decrementByAmount, increment, incrementByAmount } from "./counterSlice.ts";
+import Button from "@components/Button.tsx";
+import { useAppDispatch, useAppSelector } from "@hooks/hooks.ts";
+import { decrement, decrementByAmount, increment, incrementByAmount } from "@features/counter/counterSlice.ts";
 
 export default function Counter() {
   const count = useAppSelector((state) => state.counter.value);
