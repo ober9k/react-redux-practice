@@ -5,9 +5,21 @@ import TodoForm from "@features/todos/TodoForm.tsx";
 import { mockTags } from "@features/todos/todosHelpers.ts";
 import { deleteTodo, toggleTodo, toggleTodoTag } from "@features/todos/todosSlice.ts";
 import { useAppDispatch, useAppSelector } from "@hooks/hooks.ts";
-import type { Tag } from "@types/Tag.ts";
 import type { Todo } from "@types/Todo.ts";
-import { useState } from "react";
+import * as React from "react";
+import { ReactNode, useState } from "react";
+
+type TagsHeadingProps = {
+  children: ReactNode,
+}
+
+function TagHeading({ children }: TagsHeadingProps) {
+  return (
+    <h3 className="p-2 pb-1 text-xs font-medium">
+      {children}
+    </h3>
+  )
+}
 
 export default function Todos() {
   const todos = useAppSelector((state) => state.todos.todos);
@@ -61,9 +73,13 @@ export default function Todos() {
               <Button onClick={handleComplete(todo)}>Complete</Button>
               <Button onClick={handleDelete(todo)}>Delete</Button>
             </div>
-            <h3 className="p-2 pb-0">Selected Tags:</h3>
+            <TagHeading>
+              Selected Tags:
+            </TagHeading>
             <TagList tags={todo.tags} toggleHandler={buildToggleTagHandler(todo)} />
-            <h3 className="p-2 pb-0">Unselected Tags:</h3>
+            <TagHeading>
+              Unselected Tags:
+            </TagHeading>
             <TagList tags={mockTags.filter((tag) => !todo.tags.includes(tag))} toggleHandler={buildToggleTagHandler(todo)} />
           </li>
         ))}
