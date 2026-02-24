@@ -1,8 +1,11 @@
 import Button from "@components/Button.tsx";
 import Modal from "@components/Modal.tsx";
+import { TagList } from "@features/todos/TagList.tsx";
 import TodoForm from "@features/todos/TodoForm.tsx";
-import { toggleTodo, deleteTodo } from "@features/todos/todosSlice.ts";
+import { mockTags } from "@features/todos/todosHelpers.ts";
+import { deleteTodo, toggleTodo, toggleTodoTag } from "@features/todos/todosSlice.ts";
 import { useAppDispatch, useAppSelector } from "@hooks/hooks.ts";
+import type { Tag } from "@types/Tag.ts";
 import type { Todo } from "@types/Todo.ts";
 import { useState } from "react";
 
@@ -24,8 +27,16 @@ export default function Todos() {
     dispatch(deleteTodo(todo));
   };
 
+  /**
+   * Provide a handler to the
+   * @param todo
+   */
+  const buildToggleTagHandler = (todo) => (tag) => {
+    dispatch(toggleTodoTag({ todo, tag }));
+  }
+
   return (
-    <div>
+    <div className="p-2">
       {open && (
         <Modal onClose={closeHandler}>
           <TodoForm onClose={closeHandler} />
@@ -42,7 +53,7 @@ export default function Todos() {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            #{todo.id}: {todo.title} <small>({todo.isComplete ? "completed" : "pending"})</small>
+            #{todo.id}: {todo.title} <small>({todo.isCompleted ? "completed" : "pending"})</small>
             <p>
               {todo.description}
             </p>
@@ -50,6 +61,10 @@ export default function Todos() {
               <Button onClick={handleComplete(todo)}>Complete</Button>
               <Button onClick={handleDelete(todo)}>Delete</Button>
             </div>
+            <h3 className="p-2 pb-0">Selected Tags:</h3>
+            <TagList tags={todo.tags} toggleHandler={buildToggleTagHandler(todo)} />
+            <h3 className="p-2 pb-0">Unselected Tags:</h3>
+            <TagList tags={mockTags.filter((tag) => !todo.tags.includes(tag))} toggleHandler={buildToggleTagHandler(todo)} />
           </li>
         ))}
       </ul>
