@@ -1,4 +1,5 @@
 import type { Tag } from "@types/Tag.ts";
+import classes from "@features/todos/TagList.module.css";
 
 type Props = {
   tags: Array<Tag>,
@@ -16,10 +17,10 @@ export function TagList({ tags, toggleHandler }: Props) {
   return (
     <>
       {isNotEmpty && (
-        <ul className="tag-list">
+        <ul className={classes.tags}>
         {tags.map((tag) => (
           <li key={tag.id}>
-            <button onClick={onClickHandler(tag)}>
+            <button onClick={onClickHandler(tag)} className={classes.tag}>
               {tag.title}
             </button>
           </li>
