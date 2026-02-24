@@ -14,6 +14,12 @@ export function TagList({ tags, toggleHandler }: Props) {
 
   const isNotEmpty = tags.length > 0;
 
+  const renderEmpty = () => (
+    <p className="p-1 px-2 mb-1 text-xs">
+      No tags to display.
+    </p>
+  );
+
   return (
     <>
       {isNotEmpty && (
@@ -27,6 +33,7 @@ export function TagList({ tags, toggleHandler }: Props) {
         ))}
       </ul>
       )}
+      {!isNotEmpty && renderEmpty()}
     </>
   );
 }
