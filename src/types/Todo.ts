@@ -7,3 +7,5 @@ export type Todo = {
   tags: Array<Tag>,
   isCompleted: boolean,
 }
+
+export type NewTodo = Omit<Todo, "id">;

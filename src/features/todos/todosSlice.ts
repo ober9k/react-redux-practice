@@ -1,8 +1,8 @@
+import type { Tag } from "@/types/Tag.ts";
+import type { NewTodo, Todo } from "@/types/Todo.ts";
 import { findTodoById, getNextTodoId, mockTodos, type TodosState } from "@features/todos/todosHelpers.ts";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "@store/store.ts";
-import type { Tag } from "@/types/Tag.ts";
-import type { Todo } from "@/types/Todo.ts";
 
 const initialState: TodosState = {
   todos: [...mockTodos], /* temporary mock todos */
@@ -12,7 +12,7 @@ export const todosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    addTodo: (state: TodosState, action: PayloadAction<Todo>) => {
+    addTodo: (state: TodosState, action: PayloadAction<NewTodo>) => {
       const { title, description, tags, isCompleted } = action.payload;
 
       state.todos.push({

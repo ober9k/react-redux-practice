@@ -9,7 +9,7 @@ export function getNextTodoId(state: TodosState): number {
   return state.todos.length + 1;
 }
 
-export function findTodoById(state: TodosState, id: number): Todo {
+export function findTodoById(state: TodosState, id: number): Todo | undefined {
   return state.todos.find((todo) => todo.id === id);
 }
 
