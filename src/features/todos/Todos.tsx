@@ -6,9 +6,9 @@ import TodoForm from "@features/todos/TodoForm.tsx";
 import { mockTags } from "@features/todos/todosHelpers.ts";
 import { deleteTodo, toggleTodo, toggleTodoTag } from "@features/todos/todosSlice.ts";
 import { useAppDispatch, useAppSelector } from "@hooks/hooks.ts";
+import type { Tag } from "@types/Tag.ts";
 import type { Todo } from "@types/Todo.ts";
-import * as React from "react";
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 
 type TagsHeadingProps = {
   children: ReactNode,
@@ -44,7 +44,7 @@ export default function Todos() {
    * Provide a handler to the
    * @param todo
    */
-  const buildToggleTagHandler = (todo) => (tag) => {
+  const buildToggleTagHandler = (todo: Todo) => (tag: Tag) => {
     dispatch(toggleTodoTag({ todo, tag }));
   }
 

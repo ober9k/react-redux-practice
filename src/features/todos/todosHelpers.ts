@@ -1,11 +1,15 @@
 import type { Tag } from "@types/Tag.ts";
 import type { Todo } from "@types/Todo.ts";
 
-export function getNextTodoId(state): number {
+export interface TodosState {
+  todos: Array<Todo>,
+}
+
+export function getNextTodoId(state: TodosState): number {
   return state.todos.length + 1;
 }
 
-export function findTodoById(state, id: number): Todo {
+export function findTodoById(state: TodosState, id: number): Todo {
   return state.todos.find((todo) => todo.id === id);
 }
 

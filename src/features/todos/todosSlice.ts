@@ -1,12 +1,8 @@
-import { findTodoById, getNextTodoId, mockTodos } from "@features/todos/todosHelpers.ts";
+import { findTodoById, getNextTodoId, mockTodos, TodosState } from "@features/todos/todosHelpers.ts";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "@store/store.ts";
 import type { Tag } from "@types/Tag.ts";
 import type { Todo } from "@types/Todo.ts";
-
-export interface TodosState {
-  todos: Array<Todo>,
-}
 
 const initialState: TodosState = {
   todos: [...mockTodos], /* temporary mock todos */
@@ -16,14 +12,14 @@ export const todosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    addTodo: (state, action: PayloadAction<Todo>) => {
+    addTodo: (state: TodosState, action: PayloadAction<Todo>) => {
       const { title, description, tags, isCompleted } = action.payload;
 
       state.todos.push({
         id: getNextTodoId(state), title, description, tags, isCompleted
       });
     },
-    toggleTodo: (state, action: PayloadAction<Todo>) => {
+    toggleTodo: (state: TodosState, action: PayloadAction<Todo>) => {
       const { id } = action.payload;
       const existingTodo = findTodoById(state, id);
 
@@ -40,7 +36,7 @@ export const todosSlice = createSlice({
         existingTodo.description = description;
       }
     },
-    deleteTodo: (state, action: PayloadAction<Todo>) => {
+    deleteTodo: (state: TodosState, action: PayloadAction<Todo>) => {
       const { id } = action.payload;
       state.todos = state.todos.filter((todo) => todo.id !== id);
     },
@@ -50,7 +46,7 @@ export const todosSlice = createSlice({
      * @param state
      * @param action
      */
-    toggleTodoTag: (state, action: PayloadAction<{ todo: Todo, tag: Tag }>) => {
+    toggleTodoTag: (state: TodosState, action: PayloadAction<{ todo: Todo, tag: Tag }>) => {
       const { id } = action.payload.todo;
       const { tag } = action.payload;
       const existingTodo = findTodoById(state, id);
