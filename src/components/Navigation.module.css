@@ -1,0 +1,23 @@
+/*noinspection ALL*/
+@reference "tailwindcss";
+
+.links {
+    @apply flex gap-3;
+    @apply m-3 p-3;
+    @apply bg-gray-200;
+    @apply rounded-md;
+}
+
+.link {
+    @apply p-2 px-3;
+    @apply text-sm text-gray-700 font-medium;
+    @apply rounded-sm;
+
+    &:hover {
+        @apply bg-gray-100;
+    }
+
+    &[aria-current] {
+        @apply bg-white;
+    }
+}
