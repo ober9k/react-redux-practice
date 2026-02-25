@@ -1,5 +1,6 @@
-import Button from "@components/Button.tsx";
 import Modal from "@components/Modal.tsx";
+import DeleteButton from "@features/todos/buttons/DeleteButton.tsx";
+import TickButton from "@features/todos/buttons/TickButton.tsx";
 import { TagList } from "@features/todos/TagList.tsx";
 import TodoForm from "@features/todos/TodoForm.tsx";
 import { mockTags } from "@features/todos/todosHelpers.ts";
@@ -65,14 +66,12 @@ export default function Todos() {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            #{todo.id}: {todo.title} <small>({todo.isCompleted ? "completed" : "pending"})</small>
+            <TickButton isTicked={todo.isCompleted} toggleHandler={handleComplete(todo)} />
+            {todo.title} <small>({todo.isCompleted ? "completed" : "pending"})</small>
+            <DeleteButton toggleHandler={handleDelete(todo)} />
             <p>
               {todo.description}
             </p>
-            <div>
-              <Button onClick={handleComplete(todo)}>Complete</Button>
-              <Button onClick={handleDelete(todo)}>Delete</Button>
-            </div>
             <TagHeading>
               Selected Tags:
             </TagHeading>
