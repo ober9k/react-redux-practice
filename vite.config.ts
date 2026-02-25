@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       /* path aliases to match `tsconfig.app.json` */
+      "@": path.resolve(__dirname, "./src"),
       "@components": path.resolve(__dirname, "./src/components"),
       "@features": path.resolve(__dirname, "./src/features"),
       "@hooks": path.resolve(__dirname, "./src/hooks"),
@@ -15,7 +16,6 @@ export default defineConfig({
       "@pages": path.resolve(__dirname, "./src/pages"),
       "@schemas": path.resolve(__dirname, "./src/schemas"),
       "@store": path.resolve(__dirname, "./src/store"),
-      "@types": path.resolve(__dirname, "././src/types")
     },
   },
   plugins: [

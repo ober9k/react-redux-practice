@@ -1,5 +1,5 @@
-import type { Tag } from "@types/Tag.ts";
-import type { Todo } from "@types/Todo.ts";
+import type { Tag } from "@/types/Tag.ts";
+import type { Todo } from "@/types/Todo.ts";
 
 export interface TodosState {
   todos: Array<Todo>,

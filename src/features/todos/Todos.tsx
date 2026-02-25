@@ -6,8 +6,8 @@ import TodoForm from "@features/todos/TodoForm.tsx";
 import { mockTags } from "@features/todos/todosHelpers.ts";
 import { deleteTodo, toggleTodo, toggleTodoTag } from "@features/todos/todosSlice.ts";
 import { useAppDispatch, useAppSelector } from "@hooks/hooks.ts";
-import type { Tag } from "@types/Tag.ts";
-import type { Todo } from "@types/Todo.ts";
+import type { Tag } from "@/types/Tag.ts";
+import type { Todo } from "@/types/Todo.ts";
 import { type ReactNode, useState } from "react";
 
 type TagsHeadingProps = {

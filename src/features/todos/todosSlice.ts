@@ -1,8 +1,8 @@
-import { findTodoById, getNextTodoId, mockTodos, TodosState } from "@features/todos/todosHelpers.ts";
+import { findTodoById, getNextTodoId, mockTodos, type TodosState } from "@features/todos/todosHelpers.ts";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "@store/store.ts";
-import type { Tag } from "@types/Tag.ts";
-import type { Todo } from "@types/Todo.ts";
+import type { Tag } from "@/types/Tag.ts";
+import type { Todo } from "@/types/Todo.ts";
 
 const initialState: TodosState = {
   todos: [...mockTodos], /* temporary mock todos */
@@ -27,7 +27,7 @@ export const todosSlice = createSlice({
         existingTodo.isCompleted = !existingTodo.isCompleted;
       }
     },
-    updateTodo: (state, action: PayloadAction<Todo>) => {
+    updateTodo: (state: TodosState, action: PayloadAction<Todo>) => {
       const { id, title, description } = action.payload;
       const existingTodo = findTodoById(state, id);
 

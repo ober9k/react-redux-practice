@@ -1,5 +1,5 @@
-import type { Tag } from "@types/Tag.ts";
 import classes from "@features/todos/TagList.module.css";
+import type { Tag } from "@/types/Tag.ts";
 
 type Props = {
   tags: Array<Tag>,

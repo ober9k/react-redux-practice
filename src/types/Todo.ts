@@ -1,4 +1,4 @@
-import type { Tag } from "@types/Tag.ts";
+import type { Tag } from "@/types/Tag.ts";
 
 export type Todo = {
   id: number,
