@@ -13,15 +13,21 @@ export default function TodoList({ todos }: Props) {
     <div className={classes.todos}>
       {todos.map((todo) => (
         <div key={todo.id} className={classes.todo}>
-          <TickButton isTicked={todo.isCompleted} toggleHandler={() => {}} />
-          <DeleteButton toggleHandler={() => {}} />
+          <aside className={classes.lActions}>
+            <TickButton isTicked={todo.isCompleted} toggleHandler={() => {}} />
+          </aside>
+          <aside className={classes.rActions}>
+            <DeleteButton toggleHandler={() => {}} />
+          </aside>
           <h4 className={classes.title}>
             {todo.title}
           </h4>
           <p className={classes.description}>
             {todo.description}
           </p>
-          <TagList tags={todo.tags} toggleHandler={() => {}} />
+          <div className={classes.tags}>
+            <TagList tags={todo.tags} toggleHandler={() => {}} />
+          </div>
         </div>
       ))}
     </div>
