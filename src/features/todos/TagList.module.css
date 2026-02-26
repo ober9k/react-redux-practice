@@ -3,18 +3,25 @@
 
 .tags {
     @apply flex gap-1;
-    @apply p-1;
+    @apply py-1;
 }
 
 .tag {
     /* base styling */
     @apply border-1 border-gray-300 rounded-sm;
     @apply bg-gray-100;
-    @apply py-1 px-2;
-    @apply text-xs text-gray-500;
+    @apply py-0.5 px-1.5;
+    @apply text-xs text-gray-600 leading-4;
 
     /* extended hover styling */
     @apply hover:border-gray-400;
     @apply hover:bg-gray-200;
     @apply hover:cursor-pointer;
+
+
+}
+
+.addTag {
+    @apply inline-block;
+    @apply text-sm font-bold leading-4 subpixel-antialiased; /* force same size for larger text */
 }

@@ -3,37 +3,36 @@ import type { Tag } from "@/types/Tag.ts";
 
 type Props = {
   tags: Array<Tag>,
+  addHandler: () => void,
   toggleHandler: (tag: Tag) => void,
 };
 
 export function TagList({ tags, toggleHandler }: Props) {
 
-  const onClickHandler = (tag: Tag) => {
+  const onToggleHandler = (tag: Tag) => {
     return () => toggleHandler(tag);
   }
 
-  const isNotEmpty = tags.length > 0;
-
-  const renderEmpty = () => (
-    <p className="p-1 px-2 mb-1 text-xs">
-      No tags to display.
-    </p>
-  );
+  const onAddHandler = () => {
+    return () => {};
+  }
 
   return (
     <>
-      {isNotEmpty && (
-        <ul className={classes.tags}>
+      <ul className={classes.tags}>
         {tags.map((tag) => (
           <li key={tag.id}>
-            <button onClick={onClickHandler(tag)} className={classes.tag}>
+            <button onClick={onToggleHandler(tag)} className={classes.tag}>
               {tag.title}
             </button>
           </li>
         ))}
+        <li>
+          <button onClick={onAddHandler()} className={classes.tag}>
+            <span className={classes.addTag}>+</span>
+          </button>
+        </li>
       </ul>
-      )}
-      {!isNotEmpty && renderEmpty()}
     </>
   );
 }
