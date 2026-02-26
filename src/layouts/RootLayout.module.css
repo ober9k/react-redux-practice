@@ -1,0 +1,18 @@
+/*noinspection ALL*/
+@reference "tailwindcss";
+
+.header {
+
+    @apply p-2;
+
+    > h1 {
+        @apply px-8 py-2;
+        @apply text-2xl;
+    }
+
+}
+
+.content {
+    @apply max-w-150;
+    @apply mx-auto;
+}
